@@ -3,6 +3,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { deleteTask,updateTask } from '../features/tasks/tasksSlice';
 import TaskList from '../components/TaskList';
 import TaskForm from '../components/TaskForm';
+import TaskStats from '../components/TaskStats.jsx';
 import Navbar from '../components/Navbar.jsx'
 
 export default function Dashboard(){
@@ -22,6 +23,7 @@ export default function Dashboard(){
   return(
     <main className="dashboard">
      <Navbar></Navbar>
+     <TaskStats tasks={tasks}/>
      <div className="board-layout">
       <section className="board-panel">
         <h2>Add a task</h2>
