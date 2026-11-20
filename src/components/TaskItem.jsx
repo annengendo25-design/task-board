@@ -88,8 +88,12 @@ function TaskItem({ task, onUpdate, onDelete }) {
             >
               {isCompleted ? 'Mark pending' : 'Mark completed'}
             </button>
-            <button type="button" onClick={() => onDelete(task.id)}>
-              Delete
+            <button type="button" onClick={() => {
+              const confirmed =window.confirm(`Delete "${task.title}"?`)
+              if (confirmed){onDelete(task.id)
+              }
+              }}
+              >Delete
             </button>
           </div>
         </>
