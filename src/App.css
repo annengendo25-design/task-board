@@ -29,3 +29,10 @@
   background-color: #6710c2;
   color: white;
 }
+.task-actions{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap:0.5rem;
+  margin-top: 1rem;
+}
