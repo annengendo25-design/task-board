@@ -20,10 +20,17 @@ export default function Dashboard(){
     dispatch(deleteTask(id))
   },[dispatch])
   return(
-    <main>
+    <main className="dashboard">
      <Navbar></Navbar>
+     <div className="board-layout">
+      <section className="board-panel">
+        <h2>Add a task</h2>
       <TaskForm/>
-      <label>
+      </section>
+      <section className="board-panel">
+        <div className="board-toolbar">
+          <h2>Release tasks</h2>
+      <label className="status-filter">
         Filter by status
         <select value={statusFilter}
         onChange={(event)=>setStatusFilter(event.target.value)}>
@@ -32,6 +39,7 @@ export default function Dashboard(){
           <option value="completed">Completed</option>
         </select>
       </label>
+      </div>
       {visibleTasks.length === 0?(
         <p>No tasks match this filter.</p>):(
           <TaskList 
@@ -39,6 +47,8 @@ export default function Dashboard(){
           onUpdate={handleUpdate}
           onDelete={handleDelete}/>
         )}
+        </section>
+        </div>
     </main>
   )
 }

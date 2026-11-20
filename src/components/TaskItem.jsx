@@ -53,8 +53,7 @@ function TaskItem({ task, onUpdate, onDelete }) {
         <>
           <h2>{task.title}</h2>
           {task.description && <p>{task.description}</p>}
-          <span className="task-status">{task.status}</span>
-
+          <span className={`task-status task-status--${task.status}`}>{task.status}</span>
           <div className="task-actions">
             <button type="button" onClick={startEditing}>Edit</button>
             <button
