@@ -4,6 +4,7 @@ import { addTask } from "../features/tasks/tasksSlice";
 export default function TaskForm(){
     const[title,setTitle]=useState('')
     const[description,setDescription]=useState('')
+    const [dueDate, setDueDate]= useState('')
     const dispatch=useDispatch()
     function handleSubmit(event){
         event.preventDefault()
@@ -13,10 +14,12 @@ export default function TaskForm(){
             id:crypto.randomUUID(),
             title:cleanTitle,
             description:description.trim(),
+            dueDate,
             status:'pending',
         }))
         setTitle('')
         setDescription('')
+        setDueDate('')
     }
     return(
         <form className="task-form" onSubmit={handleSubmit}>
@@ -30,6 +33,12 @@ export default function TaskForm(){
                 Description(optional)
                 <textarea value={description}
                 onChange={(event) => setDescription(event.target.value)}/>
+            </label>
+            <label>
+                Due date(optional)
+                <input type="date"
+                value={dueDate}
+                onChange={(event)=>setDueDate(event.target.value)} />
             </label>
             <button type="submit">Add Task</button>
         </form>

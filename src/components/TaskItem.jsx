@@ -4,11 +4,13 @@ function TaskItem({ task, onUpdate, onDelete }) {
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const[dueDate, setDueDate]=useState('')
   const isCompleted = task.status === 'completed'
 
   function startEditing() {
     setTitle(task.title)
     setDescription(task.description)
+    setDueDate(task.dueDate ?? '')
     setIsEditing(true)
   }
 
@@ -21,6 +23,7 @@ function TaskItem({ task, onUpdate, onDelete }) {
     onUpdate(task.id, {
       title: cleanTitle,
       description: description.trim(),
+      dueDate,
     })
     setIsEditing(false)
   }
@@ -44,6 +47,12 @@ function TaskItem({ task, onUpdate, onDelete }) {
               onChange={(event) => setDescription(event.target.value)}
             />
           </label>
+          <label>
+            Due date(optional)
+            <input type="date"
+            value={dueDate}
+            onChange={(event)=>setDueDate(event.target.value)} />
+          </label>
           <button type="submit">Save changes</button>
           <button type="button" onClick={() => setIsEditing(false)}>
             Cancel
@@ -53,6 +62,11 @@ function TaskItem({ task, onUpdate, onDelete }) {
         <>
           <h2>{task.title}</h2>
           {task.description && <p>{task.description}</p>}
+          {task.dueDate && (
+            <p>Due on {''}
+            <time dateTime={task.dueDate}>
+              {task.dueDate.split('-').reverse().join('/')}</time></p>
+          )}
           <span className={`task-status task-status--${task.status}`}>{task.status}</span>
           <div className="task-actions">
             <button type="button" onClick={startEditing}>Edit</button>
