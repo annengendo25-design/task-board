@@ -1,24 +1,30 @@
+import { useSelector } from 'react-redux'
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
+import AuthForm from './components/AuthForm.jsx'
+import Dashboard from './pages/Dashboard.jsx'
 import './App.css'
-import { useCallback } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
-import { deleteTask,updateTask } from './features/tasks/tasksSlice';
-import TaskList from './components/TaskList';
-import TaskForm from './components/TaskForm';
 
-export default function App(){
-  const tasks=useSelector((state)=>state.tasks)
-  const dispatch=useDispatch()
-  const handleUpdate=useCallback((id,changes)=>{
-    dispatch(updateTask({id,changes}))
-  },[dispatch])
-  const handleDelete=useCallback((id)=>{
-    dispatch(deleteTask(id))
-  },[dispatch])
-  return(
-    <main>
-      <h1>Release Board</h1>
-      <TaskForm/>
-      <TaskList tasks={tasks} onUpdate={handleUpdate} onDelete={handleDelete}/>
-    </main>
+export default function App() {
+  const user = useSelector((state) => state.auth.user)
+
+  return (
+    <HashRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/dashboard" replace /> : (
+            <main>
+              <h1>Log in to Release Board</h1>
+              <AuthForm />
+            </main>
+          )}
+        />
+        <Route
+          path="/dashboard"
+          element={user ? <Dashboard /> : <Navigate to="/login" replace />}
+        />
+        <Route path="*" element={<Navigate to={user ? "/dashboard":'/login'} replace />} />
+      </Routes>
+    </HashRouter>
   )
 }
