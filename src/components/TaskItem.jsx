@@ -6,6 +6,15 @@ function TaskItem({ task, onUpdate, onDelete }) {
   const [description, setDescription] = useState('')
   const[dueDate, setDueDate]=useState('')
   const isCompleted = task.status === 'completed'
+  const now=new Date()
+  const year=now.getFullYear()
+  const month=String(now.getMonth() +1).padStart(2, '0')
+  const day=String(now.getDate()).padStart(2, '0')
+  const today= `${year}-${month}-${day}`
+  const isOverdue=
+  task.status === 'pending' &&
+  Boolean(task.dueDate) &&
+  task.dueDate < today
 
   function startEditing() {
     setTitle(task.title)
@@ -68,6 +77,7 @@ function TaskItem({ task, onUpdate, onDelete }) {
               {task.dueDate.split('-').reverse().join('/')}</time></p>
           )}
           <span className={`task-status task-status--${task.status}`}>{task.status}</span>
+          {isOverdue && <span className="task-overdue">Overdue</span>}
           <div className="task-actions">
             <button type="button" onClick={startEditing}>Edit</button>
             <button

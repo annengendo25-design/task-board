@@ -123,3 +123,12 @@ background: var(--panel);
   font-size: 1.5rem;
   font-weight: 700;
 }
+.task-overdue{
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: #66243d;
+  color: #ffe0ea;
+  font-size: 0.875rem;
+}
