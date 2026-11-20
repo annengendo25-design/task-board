@@ -1,0 +1,16 @@
+.task-card{
+  max-width: 32rem;
+  margin: 1.5rem auto;
+  padding: 1.25rem;
+  border: 2px solid #6710c2;
+  border-radius: 12px;
+}
+.task-status{
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background-color: #98179d;
+  color: white;
+  text-transform: capitalize;
+}
