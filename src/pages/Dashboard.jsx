@@ -43,7 +43,7 @@ export default function Dashboard(){
       </label>
       </div>
       {visibleTasks.length === 0?(
-        <p>No tasks match this filter.</p>):(
+        <p>{tasks.length === 0 ? 'No tasks yet.Add your first task to get started.' : 'No tasks match this filter.'}</p>):(
           <TaskList 
           tasks={visibleTasks}
           onUpdate={handleUpdate}
