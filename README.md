@@ -23,7 +23,7 @@ Open the Local URL printed in the terminal.
 
 ## Live links
 
-https://annengendo25-design.github.io/task-board/
+[Open the live Task Board](https://annengendo25-design.github.io/task-board/)
 
 ## Demo login
 
