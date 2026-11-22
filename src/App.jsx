@@ -15,7 +15,7 @@ export default function App() {
           element={user ? <Navigate to="/dashboard" replace /> : (
             <main className="login-page">
               <section className="login-card">
-              <h1>Log in to Release Board</h1>
+              <h1>Log in to Task Board</h1>
               <AuthForm />
               </section>
             </main>

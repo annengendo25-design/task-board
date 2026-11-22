@@ -30,7 +30,7 @@ test('deletes only the selected task',()=>{
     assert.deepEqual(tasksReducer([task,otherTask],deleteTask(task.id)),[otherTask],)
 })
 test('sets the user on login and cleard it on logout',()=>{
-    const user={email:'demo@releaseboard.com'}
+    const user={email:'demo@taskboard.com'}
     const signedIn=authReducer({user:null},logIn(user))
     assert.deepEqual(signedIn.user,user)
     assert.equal(authReducer(signedIn,logOut()).user,null)

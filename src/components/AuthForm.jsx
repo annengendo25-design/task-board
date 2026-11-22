@@ -9,7 +9,7 @@ export default function AuthForm(){
         const form=new FormData(event.currentTarget)
         const email=form.get('email').trim().toLowerCase()
         const password=form.get('password')
-        if(email !== 'demo@releaseboard.com' || password !== 'release123'){
+        if(email !== 'demo@taskboard.com' || password !== 'task123'){
             setError('Use the demo email and password shown below.')
             return
         }
@@ -34,8 +34,8 @@ export default function AuthForm(){
 
             {error && <p role="alert">{error}</p>}
            <button type="submit">Log In</button>
-           <p>Demo email: demo@releaseboard.com</p>
-           <p>Demo password: release123</p>
+           <p>Demo email: demo@taskboard.com</p>
+           <p>Demo password: task123</p>
             </form>
     )
 }
