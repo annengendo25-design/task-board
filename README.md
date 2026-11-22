@@ -21,6 +21,10 @@ npm.cmd run dev
 
 Open the Local URL printed in the terminal.
 
+## Live links
+
+https://annengendo25-design.github.io/task-board/
+
 ## Demo login
 
 - Email: `demo@taskboard.com`
