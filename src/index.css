@@ -48,3 +48,29 @@ textarea{
 button:hover{
   border-color: #d2a6ec;
 }
+.undo-notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  margin: 16px 0;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  color: #1e40af;
+}
+
+.undo-notification button {
+  padding: 8px 16px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.undo-notification button:hover {
+  background-color: #1d4ed8;
+}

@@ -1,6 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTask, updateTask } from "../features/tasks/tasksSlice";
+import {
+  deleteTask,
+  updateTask,
+  restoreTask,
+} from "../features/tasks/tasksSlice";
 import TaskList from "../components/TaskList";
 import TaskForm from "../components/TaskForm";
 import TaskStats from "../components/TaskStats.jsx";
@@ -12,6 +16,7 @@ export default function Dashboard() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("earliest");
+  const [deletedTask, setDeletedTask] = useState(null);
   const visibleTasks = useMemo(() => {
     const filteredTasks = tasks.filter((task) => {
       const matchesStatus =
@@ -46,10 +51,22 @@ export default function Dashboard() {
   );
   const handleDelete = useCallback(
     (id) => {
+      const index = tasks.findIndex((task) => task.id === id);
+      const task = tasks.find((task) => task.id === id);
+
+      if (!task) return;
+
+      setDeletedTask({ task, index });
       dispatch(deleteTask(id));
     },
-    [dispatch],
+    [dispatch, tasks],
   );
+  const handleUndo = useCallback(() => {
+    if (!deletedTask) return;
+
+    dispatch(restoreTask(deletedTask));
+    setDeletedTask(null);
+  }, [dispatch, deletedTask]);
   return (
     <main className="dashboard">
       <Navbar></Navbar>
@@ -93,6 +110,14 @@ export default function Dashboard() {
               </select>
             </label>
           </div>
+          {deletedTask && (
+            <div className="undo-notification">
+              <span>Task "{deletedTask.task.title}" deleted.</span>
+              <button type="button" onClick={handleUndo}>
+                Undo
+              </button>
+            </div>
+          )}
           {visibleTasks.length === 0 ? (
             <p>
               {tasks.length === 0
