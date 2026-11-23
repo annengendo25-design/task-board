@@ -57,3 +57,50 @@ async function supabaseAuthRequest(endpoint, body, accessToken) {
   }
   return data
 }
+
+export async function registerUser({ email, password }) {
+  const cleanEmail = email.trim().toLowerCase()
+  if (password.length < 6) {
+    throw new Error('Password must be at least 6 characters long.')
+  }
+
+  if (hasSupabase) {
+    const data = await supabaseAuthRequest('signup', {
+      email: cleanEmail,
+      password,
+    })
+    if (!data.session && data.user) {
+      return {
+        user: null,
+        requiresEmailConfirmation: true,
+        message:
+          'Account created! Please check your email to confirm your account before signing in.',
+      }
+    }
+    const user = {
+      id: data.user.id,
+      email: data.user.email,
+      accessToken: data.access_token,
+    }
+    saveSession(user)
+    return { user, requiresEmailConfirmation: false }
+  }
+
+  const users = getStoredUsers()
+  const alreadyExists =
+    cleanEmail === DEMO_USER.email || users.some((u) => u.email === cleanEmail)
+  if (alreadyExists) {
+    throw new Error('An account with that email already exists. Please log in instead.')
+  }
+
+  const newUser = {
+    id: crypto.randomUUID(),
+    email: cleanEmail,
+    password,
+  }
+  saveStoredUsers([...users, newUser])
+
+  const sessionUser = { id: newUser.id, email: newUser.email }
+  saveSession(sessionUser)
+  return { user: sessionUser, requiresEmailConfirmation: false }
+}
