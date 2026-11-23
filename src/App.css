@@ -143,3 +143,28 @@ background: var(--panel);
 .login-card [role="status"] {
   color: #b8f5d4;
 }
+
+.due-alerts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.due-alert-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.due-alert-badge.due-today strong {
+  color: #ffd166;
+}
+
+.due-alert-badge.overdue strong {
+  color: #ff758f;
+}
