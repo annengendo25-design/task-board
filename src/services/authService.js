@@ -38,3 +38,22 @@ export function getSavedSession() {
     return null
   }
 }
+
+async function supabaseAuthRequest(endpoint, body, accessToken) {
+  const response = await fetch(`${supabaseUrl}/auth/v1/${endpoint}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      apikey: supabaseAnonKey,
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  })
+  const data = await response.json().catch(() => ({}))
+  if (!response.ok) {
+    throw new Error(
+      data.error_description || data.msg || data.message || 'Authentication failed.'
+    )
+  }
+  return data
+}
