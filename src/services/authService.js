@@ -19,3 +19,22 @@ function getStoredUsers() {
   }
 }
 
+function saveStoredUsers(users) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+}
+
+function saveSession(user) {
+  if (user) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(user))
+  } else {
+    localStorage.removeItem(SESSION_KEY)
+  }
+}
+
+export function getSavedSession() {
+  try {
+    return JSON.parse(localStorage.getItem(SESSION_KEY)) || null
+  } catch {
+    return null
+  }
+}
