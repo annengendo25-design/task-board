@@ -132,3 +132,14 @@ background: var(--panel);
   color: #ffe0ea;
   font-size: 0.875rem;
 }
+
+.login-card a {
+  color: #e4b8ff;
+  font-weight: 600;
+}
+.login-card [role="alert"] {
+  color: #ffb4ca;
+}
+.login-card [role="status"] {
+  color: #b8f5d4;
+}
