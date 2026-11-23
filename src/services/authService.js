@@ -104,3 +104,52 @@ export async function registerUser({ email, password }) {
   saveSession(sessionUser)
   return { user: sessionUser, requiresEmailConfirmation: false }
 }
+
+export async function signInUser({ email, password }) {
+  const cleanEmail = email.trim().toLowerCase()
+
+  if (hasSupabase) {
+    const data = await supabaseAuthRequest('token?grant_type=password', {
+      email: cleanEmail,
+      password,
+    })
+    const user = {
+      id: data.user.id,
+      email: data.user.email,
+      accessToken: data.access_token,
+    }
+    saveSession(user)
+    return user
+  }
+
+  if (cleanEmail === DEMO_USER.email && password === DEMO_USER.password) {
+    const sessionUser = { id: DEMO_USER.id, email: DEMO_USER.email }
+    saveSession(sessionUser)
+    return sessionUser
+  }
+
+  const users = getStoredUsers()
+  const matched = users.find(
+    (u) => u.email === cleanEmail && u.password === password
+  )
+  if (!matched) {
+    throw new Error(
+      'Invalid email or password. Check your details or register a new account.'
+    )
+  }
+
+  const sessionUser = { id: matched.id, email: matched.email }
+  saveSession(sessionUser)
+  return sessionUser
+}
+
+export async function signOutUser(currentUser) {
+  if (hasSupabase && currentUser?.accessToken) {
+    try {
+      await supabaseAuthRequest('logout', null, currentUser.accessToken)
+    } catch {
+      // Clear local session even if remote logout fails
+    }
+  }
+  saveSession(null)
+}
