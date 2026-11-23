@@ -11,8 +11,9 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("earliest");
   const visibleTasks = useMemo(() => {
-    return tasks.filter((task) => {
+    const filteredTasks = tasks.filter((task) => {
       const matchesStatus =
         statusFilter === "all" || task.status === statusFilter;
 
@@ -24,7 +25,19 @@ export default function Dashboard() {
 
       return matchesStatus && matchesSearch;
     });
-  }, [tasks, statusFilter, searchQuery]);
+    const sortedTasks = [...filteredTasks].sort((a, b) => {
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
+
+      if (sortOrder === "earliest") {
+        return new Date(a.dueDate) - new Date(b.dueDate);
+      }
+
+      return new Date(b.dueDate) - new Date(a.dueDate);
+    });
+
+    return sortedTasks;
+  }, [tasks, statusFilter, searchQuery, sortOrder]);
   const handleUpdate = useCallback(
     (id, changes) => {
       dispatch(updateTask({ id, changes }));
@@ -67,6 +80,16 @@ export default function Dashboard() {
                 <option value="all">All tasks</option>
                 <option value="pending">Pending</option>
                 <option value="completed">Completed</option>
+              </select>
+            </label>
+            <label className="status-filter">
+              Sort tasks
+              <select
+                value={sortOrder}
+                onChange={(event) => setSortOrder(event.target.value)}
+              >
+                <option value="earliest">Nearest due date</option>
+                <option value="latest">Farthest due date</option>
               </select>
             </label>
           </div>
