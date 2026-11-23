@@ -9,6 +9,7 @@ import TaskList from "../components/TaskList";
 import TaskForm from "../components/TaskForm";
 import TaskStats from "../components/TaskStats.jsx";
 import Navbar from "../components/Navbar.jsx";
+import DueDateAlerts from "../components/DueDateAlerts.jsx";
 
 export default function Dashboard() {
   const tasks = useSelector((state) => state.tasks);
@@ -17,6 +18,7 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("earliest");
   const [deletedTask, setDeletedTask] = useState(null);
+
   const visibleTasks = useMemo(() => {
     const filteredTasks = tasks.filter((task) => {
       const matchesStatus =
@@ -30,6 +32,7 @@ export default function Dashboard() {
 
       return matchesStatus && matchesSearch;
     });
+
     const sortedTasks = [...filteredTasks].sort((a, b) => {
       if (!a.dueDate) return 1;
       if (!b.dueDate) return -1;
@@ -43,12 +46,14 @@ export default function Dashboard() {
 
     return sortedTasks;
   }, [tasks, statusFilter, searchQuery, sortOrder]);
+
   const handleUpdate = useCallback(
     (id, changes) => {
       dispatch(updateTask({ id, changes }));
     },
     [dispatch],
   );
+
   const handleDelete = useCallback(
     (id) => {
       const index = tasks.findIndex((task) => task.id === id);
@@ -61,16 +66,19 @@ export default function Dashboard() {
     },
     [dispatch, tasks],
   );
+
   const handleUndo = useCallback(() => {
     if (!deletedTask) return;
 
     dispatch(restoreTask(deletedTask));
     setDeletedTask(null);
   }, [dispatch, deletedTask]);
+
   return (
     <main className="dashboard">
-      <Navbar></Navbar>
+      <Navbar />
       <TaskStats tasks={tasks} />
+      <DueDateAlerts />
       <div className="board-layout">
         <section className="board-panel">
           <h2>Add a task</h2>

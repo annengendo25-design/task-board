@@ -15,8 +15,19 @@ export default function App() {
           element={user ? <Navigate to="/dashboard" replace /> : (
             <main className="login-page">
               <section className="login-card">
-              <h1>Log in to Task Board</h1>
-              <AuthForm />
+                <h1>Log in to Task Board</h1>
+                <AuthForm mode="login" />
+              </section>
+            </main>
+          )}
+        />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/dashboard" replace /> : (
+            <main className="login-page">
+              <section className="login-card">
+                <h1>Create an Account</h1>
+                <AuthForm mode="register" />
               </section>
             </main>
           )}
@@ -25,7 +36,7 @@ export default function App() {
           path="/dashboard"
           element={user ? <Dashboard /> : <Navigate to="/login" replace />}
         />
-        <Route path="*" element={<Navigate to={user ? "/dashboard":'/login'} replace />} />
+        <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />
       </Routes>
     </HashRouter>
   )
